@@ -1,17 +1,10 @@
-using System;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Rabobank.TechnicalTest.GCOB;
 using Rabobank.TechnicalTest.GCOB.Dtos;
 using Rabobank.TechnicalTest.GCOB.Repositories;
 using Shouldly;
-using Microsoft.Extensions.Logging;
 
 namespace Rabobank.TechnicalTest.GCOB.Tests.Controllers
 {
@@ -73,35 +66,5 @@ namespace Rabobank.TechnicalTest.GCOB.Tests.Controllers
         {
             _factory.Dispose();
         }
-    }
-}
-
-public class ApplicationFactory : WebApplicationFactory<Startup>
-{
-    protected override IHostBuilder CreateHostBuilder() =>
-        Host.CreateDefaultBuilder()
-            .ConfigureWebHostDefaults(hostBuilder => { hostBuilder.UseStartup<Startup>().UseTestServer(); })
-            .ConfigureServices(services =>
-            {
-                services.AddLogging();
-                services.AddSingleton<ILogger, FakeLogger>();
-            })
-            .ConfigureAppConfiguration((context, configurationBuilder) => { });
-}
-
-public class FakeLogger : ILogger
-{
-    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
-    {
-    }
-
-    public bool IsEnabled(LogLevel logLevel)
-    {
-        return false;
-    }
-
-    public IDisposable BeginScope<TState>(TState state)
-    {
-        return null;
     }
 }
